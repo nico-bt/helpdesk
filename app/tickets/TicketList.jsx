@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { notFound } from "next/navigation"
 
 const getTickets = async () => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
@@ -6,7 +7,7 @@ const getTickets = async () => {
     next: { revalidate: 60 },
   })
   if (!res.ok) {
-    throw new Error()
+    notFound()
   }
   const tickets = await res.json()
 

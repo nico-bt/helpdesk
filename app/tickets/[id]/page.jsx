@@ -1,10 +1,12 @@
+import { notFound } from "next/navigation"
+
 const getTicketById = async (id) => {
   const res = await fetch("https://jsonplaceholder.typicode.com/posts/" + id, {
     // Para especificar cuánto tiempo mantener caching, en este caso 60 segs
     next: { revalidate: 60 },
   })
   if (!res.ok) {
-    throw new Error()
+    notFound()
   }
   return res.json()
 }
