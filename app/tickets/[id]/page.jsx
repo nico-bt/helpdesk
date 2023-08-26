@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 
 const getTicketById = async (id) => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts/" + id, {
+  const res = await fetch("https://helpdesk-nico-bt.vercel.app/api/tickets/" + id, {
     // Para especificar cuánto tiempo mantener caching, en este caso 60 segs
     next: { revalidate: 60 },
   })
@@ -11,17 +11,9 @@ const getTicketById = async (id) => {
   return res.json()
 }
 
-const getUserById = async (id) => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/users/" + id)
-  if (!res.ok) {
-    throw new Error()
-  }
-  return res.json()
-}
-
 export default async function TicketPage({ params }) {
   const ticket = await getTicketById(params.id)
-  const user = await getUserById(ticket.userId)
+
   return (
     <main>
       <nav>
@@ -29,13 +21,9 @@ export default async function TicketPage({ params }) {
       </nav>
       <div className="card">
         <h3>{ticket.title}</h3>
-        <div className="flex flex-col px-3 gap-1">
-          <small>Created by {user.name}</small>
-          <small>Email: {user.email}</small>
-          <small>Company: {user.website}</small>
-        </div>
+        <small>Created by {ticket.user_email}</small>
         <p>{ticket.body}</p>
-        {/* <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div> */}
+        <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
       </div>
     </main>
   )
