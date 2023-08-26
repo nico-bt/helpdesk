@@ -2,31 +2,14 @@ import Link from "next/link"
 import { notFound } from "next/navigation"
 
 const getTickets = async () => {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-    // Para especificar cuánto tiempo mantener caching, en este caso 60 segs
-    next: { revalidate: 60 },
+  const res = await fetch("https://helpdesk-nico-bt.vercel.app/api/tickets", {
+    // Para especificar cuánto tiempo mantener caching
+    next: { revalidate: 0 },
   })
   if (!res.ok) {
     notFound()
   }
-  const tickets = await res.json()
-
-  const ticketsWithPriority = tickets.map((ticket) => {
-    const random = Math.random()
-    let priority
-    if (random <= 0.33) {
-      priority = "low"
-    }
-    if (random > 0.33 && random <= 0.66) {
-      priority = "medium"
-    }
-    if (random > 0.66) {
-      priority = "high"
-    }
-    return { ...ticket, priority }
-  })
-
-  return ticketsWithPriority
+  return res.json()
 }
 
 export default async function TicketList() {
@@ -35,13 +18,16 @@ export default async function TicketList() {
   return (
     <>
       {tickets.map((ticket) => (
-        <div key={ticket.id} className="card my-5">
-          <Link href={`/tickets/${ticket.id}`}>
+        <Link href={`/tickets/${ticket.id}`}>
+          <div
+            key={ticket.id}
+            className="card my-5 transform transition duration-300 hover:scale-105"
+          >
             <h3>{ticket.title}</h3>
-            <p>{ticket.body}</p>
+            <p>{ticket.body.length > 100 ? ticket.body.slice(0, 100) + "..." : ticket.body}</p>
             <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
-          </Link>
-        </div>
+          </div>
+        </Link>
       ))}
       {tickets.length === 0 && <p className="text-center">There are no open tickets, yay!</p>}
     </>
