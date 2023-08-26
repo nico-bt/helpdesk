@@ -4,7 +4,7 @@
 
 /* base styles */
 body {
-  background: #ebf0fa;
+  background: #cfd6ea;
   @apply text-gray-500 my-2 mx-4;
 }
 h1,
