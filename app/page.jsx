@@ -4,12 +4,13 @@ export default function Home() {
   return (
     <main>
       <h2>Dashboard</h2>
+      <p>Welcome to our Helpdesk Hub! </p>
       <p>
-        Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vero repellendus tempore,
-        exercitationem odit, quasi doloremque possimus recusandae alias sequi totam soluta natus
-        iure eius, obcaecati sint dolores blanditiis aspernatur quo officia iusto ut. Et, aliquid
-        sed voluptates iste cum totam, facere explicabo, fugit suscipit ratione aspernatur
-        consequuntur ex mollitia quaerat?
+        We are dedicated to providing top-notch support and assistance to streamline your experience
+        with us. Our user-friendly dashboard keeps you in the loop with the latest company updates
+        and offers a comprehensive list of pending tickets, categorized by priority. Need assistance
+        or have a new issue to report? It's easy to create a new ticket right here. Let us handle
+        your concerns, so you can focus on what matters most. We're here to help!"
       </p>
 
       <div className="flex justify-center my-8">
