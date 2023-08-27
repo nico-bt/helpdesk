@@ -25,7 +25,7 @@ export default async function TicketList() {
           className="card my-5 transform transition duration-300 hover:scale-105"
         >
           <h3>{ticket.title}</h3>
-          <p>{ticket.body.length > 100 ? ticket.body.slice(0, 100) + "..." : ticket.body}</p>
+          <p>{ticket.body}</p>
           <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
         </div>
       ))}
