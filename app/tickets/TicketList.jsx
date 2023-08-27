@@ -1,5 +1,5 @@
-import Link from "next/link"
 import { notFound } from "next/navigation"
+import LocalStorageTickets from "./LocalStorageTickets"
 
 const getTickets = async () => {
   const res = await fetch("https://helpdesk-nico-bt.vercel.app/api/tickets", {
@@ -17,17 +17,17 @@ export default async function TicketList() {
 
   return (
     <>
+      <LocalStorageTickets />
+
       {tickets.map((ticket) => (
-        <Link href={`/tickets/${ticket.id}`}>
-          <div
-            key={ticket.id}
-            className="card my-5 transform transition duration-300 hover:scale-105"
-          >
-            <h3>{ticket.title}</h3>
-            <p>{ticket.body.length > 100 ? ticket.body.slice(0, 100) + "..." : ticket.body}</p>
-            <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
-          </div>
-        </Link>
+        <div
+          key={ticket.id}
+          className="card my-5 transform transition duration-300 hover:scale-105"
+        >
+          <h3>{ticket.title}</h3>
+          <p>{ticket.body.length > 100 ? ticket.body.slice(0, 100) + "..." : ticket.body}</p>
+          <div className={`pill ${ticket.priority}`}>{ticket.priority} priority</div>
+        </div>
       ))}
       {tickets.length === 0 && <p className="text-center">There are no open tickets, yay!</p>}
     </>

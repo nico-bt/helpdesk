@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation"
 import { useState } from "react"
+import crypto from "crypto"
 
 export default function CreateForm() {
   const router = useRouter()
@@ -23,18 +24,36 @@ export default function CreateForm() {
 
     setIsLoading(true)
 
-    const newTicket = { title, body, priority, user_email: "yo@mail.com" }
-
-    const res = await fetch("https://helpdesk-nico-bt.vercel.app/api/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(newTicket),
-    })
-
-    if (res.status === 201) {
-      router.refresh()
-      router.push("/tickets")
+    const newTicket = {
+      id: window.crypto.randomUUID(),
+      title,
+      body,
+      priority,
+      user_email: "yo@mail.com",
     }
+
+    const actualLocal = localStorage.getItem("localTickets")
+    if (!actualLocal) {
+      localStorage.setItem("localTickets", JSON.stringify([newTicket]))
+    } else {
+      const newLocal = [newTicket, ...JSON.parse(actualLocal)]
+      localStorage.setItem("localTickets", JSON.stringify(newLocal))
+    }
+    router.push("/tickets")
+
+    // No quiero armar db y no se puede mantener array en memoria en vercel con mockdb.push(),
+    // Los nuevos items van a localStorage (lo de arriba) y desactivo el Link a individual items --> tickets/[id]
+    //---------------------------------------------------------------------------------------------------------------------------
+    // const res = await fetch("https://helpdesk-nico-bt.vercel.app/api/tickets", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(newTicket),
+    // })
+
+    // if (res.status === 201) {
+    //   router.refresh()
+    //   router.push("/tickets")
+    // }
   }
 
   return (
